@@ -9,12 +9,11 @@ import numpy as np
 import random
 from sklearn.feature_extraction.text import TfidfVectorizer
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
 import matplotlib.pyplot as plt
 from sklearn.cross_validation import train_test_split
 from sklearn.linear_model import LogisticRegression
 import urllib
+import os
 
 def getNGrams(query): #tokenizer function, this will make 3 grams of each query
 	tempQuery = str(query)
@@ -33,7 +32,7 @@ badQueries = []
 validQueries = []
 count = 0
 for d in data:
-	d = str(urllib.unquote(d).decode('utf8'))   #converting url encoded data to simple string
+	d = str(urllib.parse.unquote(d))   #converting url encoded data to simple string
 	badQueries.append(d)
  
 filename = 'goodqueries.txt'
@@ -42,13 +41,13 @@ filepath = directory + "/" + filename
 data = open(filepath,'r').readlines()
 data = list(set(data))
 for d in data:
-	d = str(urllib.unquote(d).decode('utf8'))
+	d = str(urllib.parse.unquote(d))
 	validQueries.append(d)
   
 badQueries = list(set(badQueries))
-tempvalidQueries = list(set(validQueries]))
+tempvalidQueries = list(set(validQueries))
 tempAllQueries = badQueries + tempvalidQueries
-bady = [1 for i in range(0,len(tempXssQueries))]  #labels, 1 for malicious and 0 for clean
+bady = [1 for i in range(0,len(badQueries))]  #labels, 1 for malicious and 0 for clean
 goody = [0 for i in range(0,len(tempvalidQueries))]
 y = bady+goody
 queries = tempAllQueries
